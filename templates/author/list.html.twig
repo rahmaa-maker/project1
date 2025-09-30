@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des auteurs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: center;
+        }
+        img {
+            width: 80px;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Liste des Auteurs</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Photo</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Nombre de livres</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.id }}</td>
+                    <td><img src="{{ author.picture }}" alt="{{ author.username }}"></td>
+                     <td>{{ author.username|upper }}</td>
+                    <td>{{ author.email }}</td>
+                    <td>{{ author.nb_books }}</td>
+                     <td>
+                    <a href="{{ path('author_details', {id: author.id}) }}">Détails</a>
+                </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun auteur trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Nombre total d'auteurs : {{ authors|length }}</p>
+    {% set total_books = 0 %}
+{% for author in authors %}
+    {% set total_books = total_books + author.nb_books %}
+{% endfor %}
+
+<p>Nombre total de livres : {{ total_books }}</p>
+
+
+</body>
+</html>
